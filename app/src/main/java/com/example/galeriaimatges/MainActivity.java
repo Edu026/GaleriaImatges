@@ -16,7 +16,20 @@ import android.widget.ImageView;
 
 
 public class MainActivity extends AppCompatActivity {
-    ActivityResultLauncher<Intent> someActivityResultLauncher;
+    ActivityResultLauncher<Intent> someActivityResultLauncher = someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        Uri uri = data.getData();
+                        ImageView imageView = findViewById(R.id.imageView);
+                        imageView.setImageURI(uri);
+                    }
+                }
+            });
     Button btnSelect;
 
     public static int RC_PHOTO_PICKER = 0;
@@ -37,22 +50,5 @@ public class MainActivity extends AppCompatActivity {
                 someActivityResultLauncher.launch(intent);
             }
         });
-    }
-
-    public void openSomeActivityForResult(View view) {
-         someActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            // There are no request codes
-                            Intent data = result.getData();
-                            Uri uri = data.getData();
-                            ImageView imageView = findViewById(R.id.imageView);
-                            imageView.setImageURI(uri);
-                        }
-                    }
-                });
     }
 }
