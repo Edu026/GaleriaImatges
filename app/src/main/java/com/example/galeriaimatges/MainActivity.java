@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Create Intent
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/jpg");
+                intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 //Launch activity to get result
                 someActivityResultLauncher.launch(intent);
